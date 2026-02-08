@@ -33,10 +33,8 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main class="d-flex align-center justify-center">
-      <v-container>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      </v-container>
+    <v-main>
+      <slot />
     </v-main>
   </v-layout>
 </template>
