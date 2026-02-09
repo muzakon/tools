@@ -31,7 +31,6 @@
           v-html="renderedHtml"
         />
       </div>
-
     </div>
   </div>
 </template>
