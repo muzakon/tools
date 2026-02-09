@@ -75,31 +75,7 @@ const isDesktop = computed(() => {
   return breakpoints.xl.value;
 })
 
-interface MenuItem {
-  title?: string;
-  to?: string;
-  icon?: string;
-  type?: 'subheader' | 'divider' | 'item';
-}
-
-const items: MenuItem[] = [
-  { type: "subheader", title: "Notes" },
-  { title: "Paint", to: "/notes/paint", icon: "mdi-brush" },
-  { title: "Markdown", to: "/notes/markdown", icon: "mdi-language-markdown" },
-  { type: "divider" },
-  { type: "subheader", title: "Converters" },
-  { title: "Cron", to: "/converters/cron", icon: "mdi-clock-outline" },
-  { title: "Timestamp", to: "/converters/timestamp", icon: "mdi-timer" },
-  { title: "Base64", to: "/converters/base64", icon: "mdi-code-braces" },
-  { title: "Color Converter", to: "/converters/color", icon: "mdi-palette" },
-  { type: "divider" },
-  { type: "subheader", title: "Graphics" },
-  { title: "Image Resizer", to: "/graphics/image-resizer", icon: "mdi-resize" },
-  { title: "Image Compressor", to: "/graphics/image-compressor", icon: "mdi-image-off" },
-  { type: "divider" },
-  { type: "subheader", title: "Text Utilities" },
-  { title: "Regex Tester", to: "/text-utils/regex", icon: "mdi-regex" },
-];
+const { items } = useNavigation();
 
 onMounted(() => {
   if (breakpoints.xl.value) {
