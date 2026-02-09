@@ -29,6 +29,31 @@ export function useRenderer(state: PaintState, canvas: CanvasRefs, getActiveTool
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.fillStyle = theme.bg
     ctx.fillRect(0, 0, w, h)
+
+    // Infinite dot grid
+    const gridSize = 50
+    const zoom = state.camera.zoom
+    const step = gridSize * zoom
+
+    // Only render if dots are far enough apart to be visible
+    if (step > 5) {
+      ctx.fillStyle = theme.grid
+      const offsetX = ((-state.camera.x * zoom + w / 2) % step + step) % step
+      const offsetY = ((-state.camera.y * zoom + h / 2) % step + step) % step
+
+      // Scale dot size slightly with zoom so they don't disappear when zooming in
+      const dotSize = Math.max(2, Math.min(4, 2 * zoom))
+      const halfSize = dotSize / 2
+
+      ctx.beginPath()
+      for (let x = offsetX - step; x < w + step; x += step) {
+        for (let y = offsetY - step; y < h + step; y += step) {
+          // Add dot to the path
+          ctx.rect(x - halfSize, y - halfSize, dotSize, dotSize)
+        }
+      }
+      ctx.fill()
+    }
   }
 
   function drawElement(ctx: CanvasRenderingContext2D, el: DrawElement, cam: Camera, w: number, h: number) {

@@ -78,6 +78,7 @@ export type ThemeName = 'dark' | 'light' | 'blueprint'
 
 export interface ThemeColors {
   bg: string
+  grid: string
   cursorRing: string
   text: string
   uiBg: string
@@ -86,7 +87,8 @@ export interface ThemeColors {
 
 export const THEMES: Record<ThemeName, ThemeColors> = {
   dark: {
-    bg: 'oklch(14.5% 0 0)',
+    bg: 'oklch(24.5% 0 0)',
+    grid: 'rgba(255, 255, 255, 0.2)',
     cursorRing: 'rgba(255, 255, 255, 0.37)',
     text: '#e0e0e0',
     uiBg: 'oklch(22.5% 0 0)',
@@ -94,6 +96,7 @@ export const THEMES: Record<ThemeName, ThemeColors> = {
   },
   light: {
     bg: '#f5f5f0',
+    grid: 'rgba(0, 0, 0, 0.08)',
     cursorRing: 'rgba(0,0,0,0.5)',
     text: '#333',
     uiBg: 'rgba(255,255,255,0.92)',
@@ -101,6 +104,7 @@ export const THEMES: Record<ThemeName, ThemeColors> = {
   },
   blueprint: {
     bg: '#1a3a5c',
+    grid: 'rgba(200, 220, 255, 0.15)',
     cursorRing: 'rgba(200,220,255,0.6)',
     text: '#c8dcf0',
     uiBg: 'rgba(15,40,70,0.92)',
