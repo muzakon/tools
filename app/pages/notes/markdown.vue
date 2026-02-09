@@ -42,7 +42,11 @@ import hljs from 'highlight.js'
 import DOMPurify from 'dompurify'
 import mermaid from 'mermaid'
 
-const markdown = ref('')
+const markdown = ref(`# Hello
+
+\`\`\`python
+print('Hello World!')
+\`\`\``)
 const previewRef = ref<HTMLElement | null>(null)
 
 mermaid.initialize({
