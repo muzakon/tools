@@ -87,11 +87,11 @@ export interface ThemeColors {
 
 export const THEMES: Record<ThemeName, ThemeColors> = {
   dark: {
-    bg: 'oklch(24.5% 0 0)',
-    grid: 'rgba(255, 255, 255, 0.2)',
+    bg: 'oklch(8.5% 0 0)',
+    grid: 'rgba(255, 255, 255, 0.14)',
     cursorRing: 'rgba(255, 255, 255, 0.37)',
     text: '#e0e0e0',
-    uiBg: 'oklch(28.5% 0 0)',
+    uiBg: 'oklch(18.5% 0 0)',
     uiBorder: 'rgba(255,255,255,0.08)',
   },
   light: {
