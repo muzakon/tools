@@ -91,12 +91,12 @@ const items = [
   { type: "subheader", title: "Text Utilities" },
   {
     title: "Regex Tester",
-    to: "/text/regex",
+    to: "/text-utils/regex",
     icon: "mdi-regex",
   },
   {
     title: "Emoji Picker",
-    to: "/text/emoji",
+    to: "/text-utils/emoji",
     icon: "mdi-emoticon-outline",
   },
 ];
