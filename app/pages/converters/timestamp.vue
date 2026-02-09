@@ -27,7 +27,7 @@
       :text="errorMessage"
     />
 
-    <div v-if="!hasError" class="flex flex-col gap-4">
+    <div  class="flex flex-col gap-4">
       <!-- Executions -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <!-- Next -->
