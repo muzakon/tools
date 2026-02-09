@@ -122,6 +122,13 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: 'Color Converter | DevKit',
+  meta: [
+    { name: 'description', content: 'Convert colors between HEX, RGB, HSL, and CMYK formats with palette generation.' },
+  ],
+})
+
 const {
   input,
   previewColor,

@@ -194,6 +194,13 @@
 import { useDropZone, useFileDialog } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
+useHead({
+  title: 'Image Compressor | DevKit',
+  meta: [
+    { name: 'description', content: 'Compress and optimize images client-side with adjustable quality presets.' },
+  ],
+})
+
 const {
   imageSrc,
   quality,

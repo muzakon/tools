@@ -103,6 +103,13 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: 'Regex Tester | DevKit',
+  meta: [
+    { name: 'description', content: 'Test regular expressions with real-time matching, highlighting, and flag controls.' },
+  ],
+})
+
 const {
   pattern,
   text,

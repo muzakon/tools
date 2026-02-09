@@ -58,5 +58,12 @@
 
 
 <script lang="ts" setup>
+useHead({
+  title: 'Base64 Encoder / Decoder | DevKit',
+  meta: [
+    { name: 'description', content: 'Encode text to Base64 or decode Base64 strings instantly in your browser.' },
+  ],
+})
+
 const { input, mode, output, hasError, errorMessage, inputLabel, outputLabel } = useBase64();
 </script>

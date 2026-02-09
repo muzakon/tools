@@ -235,6 +235,13 @@
 import { useDropZone, useFileDialog } from "@vueuse/core";
 import { useTemplateRef } from "vue";
 
+useHead({
+  title: 'Image Resizer | DevKit',
+  meta: [
+    { name: 'description', content: 'Resize and scale images in your browser — no upload needed.' },
+  ],
+})
+
 const {
   imageSrc,
   width,

@@ -137,6 +137,13 @@
 
 
 <script setup lang="ts">
+useHead({
+  title: 'Cron Expression Parser | DevKit',
+  meta: [
+    { name: 'description', content: 'Parse cron expressions, preview upcoming runs, and pick from common presets.' },
+  ],
+})
+
 const {
   cron,
   timezone,

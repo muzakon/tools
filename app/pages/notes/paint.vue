@@ -97,6 +97,13 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: 'Paint | DevKit',
+  meta: [
+    { name: 'description', content: 'A browser-based canvas painting tool with brushes, layers, and session saving.' },
+  ],
+})
+
 import { ref, computed, onMounted, watch } from 'vue'
 import type { PaintSession, ToolName } from '~/types/paint'
 import { THEMES } from '~/types/paint'

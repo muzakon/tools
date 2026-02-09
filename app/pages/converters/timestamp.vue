@@ -147,6 +147,13 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: 'Timestamp Converter | DevKit',
+  meta: [
+    { name: 'description', content: 'Convert between Unix timestamps and human-readable dates with timezone support.' },
+  ],
+})
+
 import { useTimestamp } from '~/composables/useTimestamp';
 
 const {

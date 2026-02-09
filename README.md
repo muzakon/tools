@@ -1,75 +1,44 @@
-# Nuxt Minimal Starter
+# DevKit
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A personal grab-bag of browser-based tools I actually use while building products. Everything runs client-side — no data leaves your machine.
 
-## Setup
+Built with Nuxt 4, Vue 3, Vuetify, and Tailwind CSS.
 
-Make sure to install dependencies:
+## What's inside
+
+**Notes**
+- **Paint** — a simple canvas for sketching ideas, with brush tools, color palettes, and session saving via IndexedDB
+- **Markdown** — live preview editor with syntax highlighting and mermaid diagram rendering
+
+**Converters**
+- **Cron** — paste a cron expression and instantly see when it fires next (includes common presets)
+- **Timestamp** — convert between Unix timestamps and human-readable dates, with timezone support
+- **Base64** — encode/decode text to and from Base64
+- **Color** — convert between HEX, RGB, HSL, CMYK and generate palettes from any input
+
+**Graphics**
+- **Image Resizer** — drag-drop an image, pick dimensions or a scale factor, download the result
+- **Image Compressor** — squeeze file sizes down with adjustable quality presets
+
+**Text Utilities**
+- **Regex Tester** — test patterns with real-time highlighting, match counts, and flag toggles
+
+## Getting started
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+Open [localhost:3000](http://localhost:3000) and you're good to go.
 
-Build the application for production:
+## Build for production
 
 ```bash
-# npm
-npm run build
-
-# pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
 pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## License
+
+Do whatever you want with it.

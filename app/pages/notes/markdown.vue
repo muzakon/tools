@@ -13,7 +13,7 @@
         >
           <textarea
             v-model="markdown"
-            class="absolute inset-0 !p-3 lg:!p-4 text-xs mono outline-none !resize-none bg-transparent"
+            class="absolute inset-0 !p-3 lg:!p-4 !text-xs mono outline-none !resize-none bg-transparent"
             spellcheck="false"
           />
         </div>
@@ -36,6 +36,13 @@
 </template>
 
 <script lang="ts" setup>
+useHead({
+  title: 'Markdown Preview | DevKit',
+  meta: [
+    { name: 'description', content: 'Live markdown editor with syntax highlighting and mermaid diagram support.' },
+  ],
+})
+
 import { Marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
