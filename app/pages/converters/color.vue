@@ -14,7 +14,7 @@
 
       <div class="flex items-center gap-2">
         <div
-          class="rounded-[4px]"
+          class="rounded-[4px] border border-white/10"
           :style="{ backgroundColor: previewColor, width: `36px`, height: `36px` }"
         ></div>
         <v-text-field
@@ -22,7 +22,6 @@
           hide-details
           variant="outlined"
           placeholder="eg: #ffffff"
-          clearable
           density="compact"
           class="mono w-full"
         />
