@@ -84,7 +84,7 @@ const items = [
   },
   {
     title: "Image Compressor",
-    to: "/graphics/compress",
+    to: "/graphics/image-compressor",
     icon: "mdi-image-off",
   },
   {
