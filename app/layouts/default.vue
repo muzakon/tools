@@ -79,7 +79,7 @@ const items = [
   { type: "subheader", title: "Graphics" },
   {
     title: "Image Resizer",
-    to: "/graphics/resize",
+    to: "/graphics/image-resizer",
     icon: "mdi-image-resize",
   },
   {
