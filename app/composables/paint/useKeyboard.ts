@@ -2,13 +2,16 @@ import { onMounted, onUnmounted } from 'vue'
 import type { PaintState, ToolName } from '~/types/paint'
 import type { HistoryManager } from './useHistory'
 import type { ToolManager } from './useToolManager'
-import type { SessionManager } from './useSession'
+
+interface KeyboardCallbacks {
+  save: () => void | Promise<void>
+}
 
 export function useKeyboard(
   state: PaintState,
   history: HistoryManager,
   toolManager: ToolManager,
-  session: SessionManager,
+  callbacks: KeyboardCallbacks,
 ) {
   function onKeyDown(e: KeyboardEvent) {
     // skip if user is in an input/textarea
@@ -28,7 +31,7 @@ export function useKeyboard(
     }
     if (ctrl && e.key === 's') {
       e.preventDefault()
-      session.save()
+      callbacks.save()
       return
     }
 

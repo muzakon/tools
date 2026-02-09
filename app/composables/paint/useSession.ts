@@ -1,5 +1,5 @@
 import type { PaintState, PaintSession } from '~/types/paint'
-import { uid } from './utils'
+import { v4 as uuidv4 } from 'uuid'
 
 const DB_NAME = 'paint-sessions'
 const STORE_NAME = 'sessions'
@@ -16,16 +16,17 @@ function openDB(): Promise<IDBDatabase> {
 }
 
 export interface SessionManager {
-  save(): Promise<void>
+  save(): Promise<string>
   load(id: string): Promise<void>
+  exists(id: string): Promise<boolean>
   list(): Promise<PaintSession[]>
   remove(id: string): Promise<void>
 }
 
 export function useSession(state: PaintState): SessionManager {
-  async function save() {
+  async function save(): Promise<string> {
     const db = await openDB()
-    if (!state.sessionId) state.sessionId = uid()
+    if (!state.sessionId) state.sessionId = uuidv4()
     const session: PaintSession = {
       id: state.sessionId,
       name: state.sessionName,
@@ -33,10 +34,10 @@ export function useSession(state: PaintState): SessionManager {
       camera: { ...state.camera },
       timestamp: Date.now(),
     }
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readwrite')
       tx.objectStore(STORE_NAME).put(session)
-      tx.oncomplete = () => resolve()
+      tx.oncomplete = () => resolve(session.id)
       tx.onerror = () => reject(tx.error)
     })
   }
@@ -56,6 +57,16 @@ export function useSession(state: PaintState): SessionManager {
         state.dirty = true
         resolve()
       }
+      req.onerror = () => reject(req.error)
+    })
+  }
+
+  async function exists(id: string): Promise<boolean> {
+    const db = await openDB()
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readonly')
+      const req = tx.objectStore(STORE_NAME).count(IDBKeyRange.only(id))
+      req.onsuccess = () => resolve(req.result > 0)
       req.onerror = () => reject(req.error)
     })
   }
@@ -80,5 +91,5 @@ export function useSession(state: PaintState): SessionManager {
     })
   }
 
-  return { save, load, list, remove }
+  return { save, load, exists, list, remove }
 }

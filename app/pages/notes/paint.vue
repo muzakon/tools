@@ -51,8 +51,6 @@
         <span class="label-text">Theme</span>
         <select v-model="state.theme" class="select-input" @change="state.dirty = true">
           <option value="dark">Dark</option>
-          <option value="light">Light</option>
-          <option value="blueprint">Blueprint</option>
         </select>
       </div>
     </div>
@@ -70,7 +68,7 @@
       </div>
       <div v-if="sessions.length" class="session-list">
         <div v-for="s in sessions" :key="s.id" class="session-item">
-          <button class="session-name" @click="loadSession(s.id)">{{ s.name }}</button>
+          <button class="session-name" @click="navigateToSession(s.id)">{{ s.name }}</button>
           <button class="sm-btn del" @click="deleteSession(s.id)">×</button>
         </div>
       </div>
@@ -84,10 +82,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import type { PaintSession, ToolName } from '~/types/paint'
 import { THEMES } from '~/types/paint'
-import { usePaintState } from '~/composables/paint/usePaintState'
+import { usePaintState, resetPaintState } from '~/composables/paint/usePaintState'
 import { useCanvas } from '~/composables/paint/useCanvas'
 import { useHistory } from '~/composables/paint/useHistory'
 import { useToolManager } from '~/composables/paint/useToolManager'
@@ -102,6 +100,9 @@ import { useCircleTool } from '~/composables/paint/tools/useCircleTool'
 import { useArrowTool } from '~/composables/paint/tools/useArrowTool'
 
 definePageMeta({ layout: 'default' })
+
+const route = useRoute()
+const router = useRouter()
 
 const state = usePaintState()
 const { container, bgCanvas, drawCanvas, overlayCanvas, screenToWorld, getDpr, getSize } = useCanvas(state)
@@ -120,32 +121,66 @@ toolManager.registerTool(useArrowTool(state, history))
 // Renderer needs tool reference for preview
 useRenderer(state, { bgCanvas, drawCanvas, overlayCanvas, getDpr, getSize }, () => toolManager.getActiveTool())
 
-// Keyboard
-useKeyboard(state, history, toolManager, session)
+// Keyboard (save is handled here via onSave callback)
+useKeyboard(state, history, toolManager, { save: saveSession })
 
 // Sessions
 const sessions = ref<PaintSession[]>([])
+
+function querySessionId(): string | null {
+  const q = route.query.session
+  return typeof q === 'string' ? q : null
+}
 
 async function refreshSessions() {
   sessions.value = (await session.list()).sort((a, b) => b.timestamp - a.timestamp)
 }
 
 async function saveSession() {
-  await session.save()
+  const id = await session.save()
   await refreshSessions()
+  // Put session id in query without triggering remount
+  if (!querySessionId()) {
+    router.replace({ query: { session: id } })
+  }
 }
 
-async function loadSession(id: string) {
+async function navigateToSession(id: string) {
   await session.load(id)
-  await refreshSessions()
+  router.replace({ query: { session: id } })
 }
 
 async function deleteSession(id: string) {
   await session.remove(id)
   await refreshSessions()
+  if (state.sessionId === id) {
+    resetPaintState()
+    router.replace({ query: {} })
+  }
 }
 
-onMounted(refreshSessions)
+// When query.session is removed (e.g. clicking nav link to /notes/paint), reset state
+watch(
+  () => route.query.session,
+  (newVal, oldVal) => {
+    if (!newVal && oldVal) {
+      resetPaintState()
+    }
+  },
+)
+
+onMounted(async () => {
+  await refreshSessions()
+  const sessionId = querySessionId()
+  if (sessionId) {
+    const found = await session.exists(sessionId)
+    if (found) {
+      await session.load(sessionId)
+    } else {
+      router.replace({ query: {} })
+    }
+  }
+})
 
 // Tool buttons config
 const toolButtons: { name: ToolName; icon: string; label: string; key: string }[] = [

@@ -54,7 +54,7 @@ export function useToolManager(
     const newZoom = e.deltaY < 0
       ? oldZoom * zoomFactor
       : oldZoom / zoomFactor
-    const clampedZoom = Math.max(0.1, Math.min(20, newZoom))
+    const clampedZoom = Math.max(0.5, Math.min(10, newZoom))
 
     // zoom towards cursor
     const world = screenToWorld(e.clientX, e.clientY)

@@ -24,3 +24,15 @@ export function usePaintState(): PaintState {
   }
   return _state
 }
+
+export function resetPaintState(): void {
+  if (!_state) return
+  _state.camera = { x: 0, y: 0, zoom: 1 }
+  _state.elements = []
+  _state.activeTool = 'brush'
+  _state.sessionId = null
+  _state.sessionName = 'Untitled'
+  _state.eraserTrail = []
+  _state.shapesToDelete = new Set()
+  _state.dirty = true
+}
