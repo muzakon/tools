@@ -91,7 +91,7 @@ export const THEMES: Record<ThemeName, ThemeColors> = {
     grid: 'rgba(255, 255, 255, 0.2)',
     cursorRing: 'rgba(255, 255, 255, 0.37)',
     text: '#e0e0e0',
-    uiBg: 'oklch(22.5% 0 0)',
+    uiBg: 'oklch(28.5% 0 0)',
     uiBorder: 'rgba(255,255,255,0.08)',
   },
   light: {

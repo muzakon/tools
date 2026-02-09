@@ -25,34 +25,49 @@
         :title="`${t.label} (${t.key})`"
         @click="toolManager.setTool(t.name)"
       >
-        <span class="tool-icon">{{ t.icon }}</span>
+        <div class="flex leading-normal">
+            <icon size="1rem" :name="t.icon" />
+        </div>
       </button>
     </div>
 
     <!-- Brush settings (top-right) -->
-    <div class="panel settings" :style="panelStyle">
+    <div class="panel settings w-[200px] !gap-3" :style="panelStyle">
       <label>
-        <span class="label-text">Color</span>
-        <input v-model="state.brushColor" type="color" class="color-input" />
+        <span class="label-text">Current Color</span>
+        <div class="relative !mt-1.5">
+          <input
+            v-model="state.brushColor"
+            type="color"
+            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
+          <div
+            class="w-full h-7 rounded-md border border-neutral-800"
+            :style="{ backgroundColor: state.brushColor }"
+          ></div>
+        </div>
+      </label>
+      <label>
+        <span class="label-text">Palette</span>
+        <div class="palette-grid !mt-1.5">
+          <button
+            v-for="color in palette"
+            :key="color"
+            class="palette-color"
+            :class="{ active: state.brushColor === color }"
+            :style="{ backgroundColor: color }"
+            @click="state.brushColor = color"
+          ></button>
+        </div>
       </label>
       <label>
         <span class="label-text">Size: {{ state.brushWidth }}</span>
-        <input v-model.number="state.brushWidth" type="range" min="1" max="50" class="range-input" />
+        <input v-model.number="state.brushWidth" type="range" min="1" max="50" class="range-input w-full !mt-1.5" />
       </label>
-      <label v-if="showFilled">
-        <span class="label-text">Filled</span>
+      <label v-if="showFilled" class="flex items-center gap-2">
+        <span class="label-text !mb-0">Filled</span>
         <input v-model="state.filled" type="checkbox" />
       </label>
-    </div>
-
-    <!-- Theme settings (bottom-right) -->
-    <div class="panel bg-settings" :style="panelStyle">
-      <div class="panel-row">
-        <span class="label-text">Theme</span>
-        <select v-model="state.theme" class="select-input" @change="state.dirty = true">
-          <option value="dark">Dark</option>
-        </select>
-      </div>
     </div>
 
     <!-- Session panel (bottom-left) -->
@@ -92,6 +107,7 @@ import { useToolManager } from '~/composables/paint/useToolManager'
 import { useRenderer } from '~/composables/paint/useRenderer'
 import { useSession } from '~/composables/paint/useSession'
 import { useKeyboard } from '~/composables/paint/useKeyboard'
+import { usePalette } from '~/composables/paint/usePalette'
 import { usePanTool } from '~/composables/paint/tools/usePanTool'
 import { useBrushTool } from '~/composables/paint/tools/useBrushTool'
 import { useEraserTool } from '~/composables/paint/tools/useEraserTool'
@@ -105,6 +121,7 @@ const route = useRoute()
 const router = useRouter()
 
 const state = usePaintState()
+const { palette } = usePalette()
 const { container, bgCanvas, drawCanvas, overlayCanvas, screenToWorld, getDpr, getSize } = useCanvas(state)
 const history = useHistory(state)
 const toolManager = useToolManager(state, screenToWorld)
@@ -184,12 +201,12 @@ onMounted(async () => {
 
 // Tool buttons config
 const toolButtons: { name: ToolName; icon: string; label: string; key: string }[] = [
-  { name: 'pan', icon: '✋', label: 'Pan', key: 'V' },
-  { name: 'brush', icon: '🖌️', label: 'Brush', key: 'B' },
-  { name: 'eraser', icon: '🧹', label: 'Eraser', key: 'E' },
-  { name: 'rect', icon: '⬜', label: 'Rectangle', key: 'R' },
-  { name: 'circle', icon: '⭕', label: 'Circle', key: 'C' },
-  { name: 'arrow', icon: '➡️', label: 'Arrow', key: 'A' },
+  { name: 'pan', icon: 'material-symbols:back-hand-outline-rounded', label: 'Pan', key: 'V' },
+  { name: 'brush', icon: 'material-symbols:brush-outline', label: 'Brush', key: 'B' },
+  { name: 'eraser', icon: 'material-symbols:ink-eraser-outline-rounded', label: 'Eraser', key: 'E' },
+  { name: 'rect', icon: 'material-symbols:rectangle-outline-rounded', label: 'Rectangle', key: 'R' },
+  { name: 'circle', icon: 'material-symbols:circle-outline', label: 'Circle', key: 'C' },
+  { name: 'arrow', icon: 'material-symbols:line-end-arrow-outline-rounded', label: 'Arrow', key: 'A' },
 ]
 
 const showFilled = computed(() => ['rect', 'circle'].includes(state.activeTool))
@@ -278,7 +295,7 @@ function onWheel(e: WheelEvent) {
 .toolbar {
   top: 16px;
   left: 16px;
-  gap: 4px;
+  gap: 6px;
 }
 
 .settings {
@@ -330,12 +347,7 @@ function onWheel(e: WheelEvent) {
 
   &.active {
     background: rgba(255, 255, 255, 0.18);
-    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.25);
   }
-}
-
-.tool-icon {
-  font-size: 18px;
 }
 
 // Form inputs
@@ -349,16 +361,38 @@ function onWheel(e: WheelEvent) {
 .color-input {
   width: 100%;
   height: 28px;
-  border: none;
   border-radius: 6px;
   background: transparent;
   cursor: pointer;
   padding: 0;
 }
 
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+}
+
+.palette-color {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: transform 0.1s, border-color 0.1s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.active {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+  }
+}
+
 .range-input {
-  width: 120px;
-  accent-color: #e74c3c;
+  accent-color: #f3f2f2;
 }
 
 .select-input {
