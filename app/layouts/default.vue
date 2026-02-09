@@ -80,27 +80,12 @@ const items = [
   {
     title: "Image Resizer",
     to: "/graphics/image-resizer",
-    icon: "mdi-image-resize",
+    icon: "mdi-resize",
   },
   {
     title: "Image Compressor",
     to: "/graphics/image-compressor",
     icon: "mdi-image-off",
-  },
-  {
-    title: "Filters",
-    to: "/graphics/filters",
-    icon: "mdi-image-filter",
-  },
-  {
-    title: "Gradient Generator",
-    to: "/graphics/gradient",
-    icon: "mdi-gradient-horizontal",
-  },
-  {
-    title: "Shadow Generator",
-    to: "/graphics/shadow",
-    icon: "mdi-box-shadow",
   },
   { type: "divider" },
   { type: "subheader", title: "Text Utilities" },
