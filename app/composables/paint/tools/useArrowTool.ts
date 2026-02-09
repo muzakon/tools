@@ -19,7 +19,7 @@ export function useArrowTool(state: PaintState, history: HistoryManager): ToolHa
         x2: worldPos.x,
         y2: worldPos.y,
         color: state.brushColor,
-        lineWidth: state.brushWidth,
+        lineWidth: 4,
       }
     },
     onPointerMove(_e: PointerEvent, worldPos: Point) {

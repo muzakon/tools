@@ -19,7 +19,7 @@ export function useRectTool(state: PaintState, history: HistoryManager): ToolHan
         w: 0,
         h: 0,
         color: state.brushColor,
-        lineWidth: state.brushWidth,
+        lineWidth: 4,
         filled: state.filled,
       }
     },

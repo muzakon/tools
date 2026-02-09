@@ -19,7 +19,7 @@ export function useCircleTool(state: PaintState, history: HistoryManager): ToolH
         rx: 0,
         ry: 0,
         color: state.brushColor,
-        lineWidth: state.brushWidth,
+        lineWidth: 4,
         filled: state.filled,
       }
     },
