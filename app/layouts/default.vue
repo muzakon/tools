@@ -53,11 +53,6 @@ const items = [
     to: "/notes/markdown",
     icon: "mdi-language-markdown",
   },
-  {
-    title: "Text Editor",
-    to: "/notes/text",
-    icon: "mdi-text",
-  },
   { type: "divider" },
   { type: "subheader", title: "Converters" },
   {

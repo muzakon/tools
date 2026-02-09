@@ -9,7 +9,7 @@
         </label>
 
         <div
-          class="relative flex-1 min-h-0 bg-white/[4%] border border-white/10 overflow-hidden rounded-lg"
+          class="relative flex-1 min-h-0 bg-white/[8%] border border-white/10 overflow-hidden rounded-lg"
         >
           <textarea
             v-model="markdown"
@@ -27,7 +27,7 @@
 
         <div
           ref="previewRef"
-          class="relative flex-1 min-h-0 bg-white/[4%] border border-white/10 overflow-y-auto rounded-lg markdown-body !p-4 lg:!p-6 text-sm"
+          class="relative flex-1 min-h-0 bg-white/[8%] border border-white/10 overflow-y-auto rounded-lg markdown-body !p-4 lg:!p-6 text-sm"
           v-html="renderedHtml"
         />
       </div>
