@@ -10,11 +10,15 @@
 
     <!-- Dropzone -->
     <div
-      v-if="showDropzone"
-      class="relative flex-1 border-2 border-dashed border-white/15 rounded-2xl
+      v-if="!hasImage"
+      ref="dropZoneRef"
+      class="relative flex-1 border-2 border-dashed rounded-2xl
              flex items-center justify-center transition
-             hover:border-white/40 hover:bg-white/[2%]
              group cursor-pointer"
+      :class="isOverDropZone
+        ? 'border-white/60 bg-white/[5%]'
+        : 'border-white/15 hover:border-white/40 hover:bg-white/[2%]'"
+      @click="() => openFileDialog()"
     >
       <div class="flex flex-col items-center gap-3 text-center">
         <div
@@ -49,7 +53,7 @@
         </div>
 
         <div class="text-[11px] text-white/40">
-          PNG, JPG, WEBP • Max 10MB
+          PNG, JPG, WEBP &bull; Max 10MB
         </div>
       </div>
     </div>
@@ -61,8 +65,13 @@
     >
       <!-- Image Preview -->
       <div class="flex-1 min-h-0 flex flex-col gap-3">
-        <div class="shrink-0 text-white/60 text-sm font-medium">
-          Original Image
+        <div class="shrink-0 flex items-center justify-between">
+          <span class="text-white/60 text-sm font-medium">Preview</span>
+          <div class="flex items-center gap-2 text-xs text-white/40">
+            <span>{{ dimensionSummary }}</span>
+            <span>&bull;</span>
+            <span>{{ fileSizeText }}</span>
+          </div>
         </div>
 
         <div
@@ -70,10 +79,10 @@
                  border border-white/10 rounded-lg
                  bg-white/[8%]
                  flex items-center justify-center
-                 overflow-hidden"
+                 overflow-hidden relative"
         >
           <img
-            :src="image"
+            :src="imageSrc"
             class="max-h-full max-w-full object-contain rounded-lg"
           />
         </div>
@@ -83,7 +92,7 @@
       <div
         class="lg:w-[320px] shrink-0
                flex flex-col gap-3
-               min-h-0"
+               min-h-0 overflow-y-auto"
       >
         <div class="shrink-0 text-white/60 text-sm font-medium">
           Settings
@@ -100,12 +109,15 @@
 
           <div class="flex items-center gap-2.5">
             <v-text-field
+              :model-value="width"
+              @update:model-value="(v: any) => setWidth(Number(v))"
               hide-details
               variant="outlined"
               placeholder="Width"
               density="compact"
               class="mono w-full"
               type="number"
+              min="1"
             />
 
             <div
@@ -122,22 +134,26 @@
             </div>
 
             <v-text-field
+              :model-value="height"
+              @update:model-value="(v: any) => setHeight(Number(v))"
               hide-details
               variant="outlined"
               placeholder="Height"
               density="compact"
               class="mono w-full"
               type="number"
+              min="1"
             />
           </div>
 
           <div
-            class="text-xs text-center text-white/60 font-medium p-2
+            class="text-xs text-center text-white/60 font-medium !p-2
                    border border-white/5 bg-white/[8%]
                    rounded-lg hover:bg-white/15
                    cursor-pointer select-none
                    transition hover:text-white"
             v-ripple
+            @click="resetToOriginal"
           >
             Reset to Original
           </div>
@@ -154,16 +170,17 @@
 
           <div class="grid grid-cols-4 gap-2.5">
             <div
-              v-for="p in ['25%', '50%', '75%', '100%']"
+              v-for="p in [25, 50, 75, 100]"
               :key="p"
-              class="text-xs text-center text-white/60 font-medium p-2
+              class="text-xs text-center text-white/60 font-medium !p-2
                      border border-white/5 bg-white/[8%]
                      rounded-lg hover:bg-white/15
                      cursor-pointer select-none
                      transition hover:text-white"
               v-ripple
+              @click="applyScale(p)"
             >
-              {{ p }}
+              {{ p }}%
             </div>
           </div>
         </div>
@@ -182,31 +199,78 @@
             variant="outlined"
             density="compact"
             hide-details
-            :items="['JPG', 'PNG', 'WEBP']"
+            :items="['PNG', 'JPG', 'WEBP']"
             class="w-full"
           />
         </div>
 
-        <!-- Action -->
-        <v-btn color="white">
+        <!-- Actions -->
+        <v-btn
+          color="white"
+          :loading="isProcessing"
+          @click="resizeAndDownload"
+        >
           <span class="text-[13px] font-medium normal-case">
-            Resize Image
+            Resize &amp; Download
           </span>
         </v-btn>
+
+        <div
+          class="text-xs text-center text-white/40 font-medium !p-2
+                 border border-white/5 bg-white/[4%]
+                 rounded-lg hover:bg-white/10
+                 cursor-pointer select-none
+                 transition hover:text-white/60"
+          v-ripple
+          @click="removeImage"
+        >
+          Remove Image
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useDropZone, useFileDialog } from "@vueuse/core";
+import { useTemplateRef } from "vue";
 
-const showDropzone = ref(false);
+const {
+  imageSrc,
+  width,
+  height,
+  isRatioLocked,
+  selectedFormat,
+  isProcessing,
+  hasImage,
+  fileSizeText,
+  dimensionSummary,
+  loadFile,
+  setWidth,
+  setHeight,
+  applyScale,
+  resetToOriginal,
+  removeImage,
+  resizeAndDownload,
+} = useImageResizer();
 
-const image = ref(
-  "https://www.mydomaine.com/thmb/MBYl8FUvZi9r3ZgTl6gyNLLGHkk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/cdn.cliqueinc.com__cache__posts__253245__most-beautiful-flowers-253245-1522430144413-main.700x0c-54d089becbe64976827e9ed0461e3f24.jpg"
-);
+const dropZoneRef = useTemplateRef("dropZoneRef");
 
-const selectedFormat = ref("JPG");
-const isRatioLocked = ref(true);
+function onDrop(files: File[] | null) {
+  if (files?.[0]) loadFile(files[0]);
+}
+
+const { isOverDropZone } = useDropZone(dropZoneRef, {
+  onDrop,
+  dataTypes: ["image/png", "image/jpeg", "image/webp"],
+});
+
+const { open: openFileDialog, onChange } = useFileDialog({
+  accept: "image/png,image/jpeg,image/webp",
+  multiple: false,
+});
+
+onChange((fileList) => {
+  if (fileList?.[0]) loadFile(fileList[0]);
+});
 </script>
