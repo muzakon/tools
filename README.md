@@ -23,6 +23,9 @@ Built with Nuxt 4, Vue 3, Vuetify, and Tailwind CSS.
 **Text Utilities**
 - **Regex Tester** — test patterns with real-time highlighting, match counts, and flag toggles
 
+**Random**
+- **UUID** — create uuid, ulid etc. on client-side.
+
 ## Getting started
 
 ```bash
