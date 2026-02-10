@@ -23,6 +23,9 @@ export const navItems: NavItem[] = [
   { type: 'divider' },
   { type: 'subheader', title: 'Text Utilities' },
   { title: 'Regex Tester', to: '/text-utils/regex', icon: 'mdi-regex', description: 'Test regular expressions with real-time matching and capture groups' },
+  { type: 'divider' },
+  { type: 'subheader', title: 'Random' },
+  { title: 'UUID', to: '/random/uuid', icon: 'mdi-regex', description: 'Generate random UUIDs' },
 ]
 
 export function useNavigation() {
