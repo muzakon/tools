@@ -1,8 +1,8 @@
 <template>
   <div class="h-screen flex flex-col !p-4 gap-4">
     <div class="text-sm text-white/50 shrink-0">
-      Convert colors between different formats (HEX, RGB, HSL, CMYK) or create a
-      palette.
+      Pick a color and convert it between HEX, RGB, HSL, and CMYK. Generate
+      matching palettes from any shade.
     </div>
 
     <div

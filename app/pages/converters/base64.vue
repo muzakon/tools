@@ -1,8 +1,8 @@
 <template>
   <div class="h-screen flex flex-col !p-4 gap-4">
     <div class="text-sm text-white/50 shrink-0">
-      Encode text to Base64, decode encoded strings, or download
-      decoded content as a file.
+      Encode or decode Base64 strings instantly. Download the decoded
+      output as a file when needed.
     </div>
 
     <v-btn-toggle density="compact" v-model="mode" class="shrink-0">

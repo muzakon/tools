@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen flex flex-col !p-4 gap-2.5">
     <div class="text-sm text-white/50 shrink-0">
-      Generate random UUIDs on the client-side.
+      Generate UUID v1, v4, v7, and ULID identifiers individually or in bulk.
     </div>
 
     <div class="flex items-center gap-1.5">

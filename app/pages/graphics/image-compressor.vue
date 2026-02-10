@@ -4,7 +4,7 @@
     <div class="shrink-0">
       <h1 class="text-base font-medium text-white">Image Compressor</h1>
       <p class="text-sm text-white/50">
-        Compress and optimize images directly in your browser.
+        Drop an image to shrink its file size with adjustable quality. Nothing gets uploaded — processing stays in your browser.
       </p>
     </div>
 

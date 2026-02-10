@@ -1,8 +1,8 @@
 <template>
   <div class="h-screen flex flex-col !p-4 gap-2.5">
     <div class="text-sm text-white/50 shrink-0">
-      Test regular expressions with real-time matching, capture groups, and
-      flags.
+      Type a pattern and see matches highlighted instantly. Inspect capture
+      groups and toggle flags on the fly.
     </div>
 
     <div

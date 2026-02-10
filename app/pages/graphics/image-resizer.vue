@@ -4,7 +4,7 @@
     <div class="shrink-0">
       <h1 class="text-base font-medium text-white">Image Resizer</h1>
       <p class="text-sm text-white/50">
-        Resize and scale images directly in your browser.
+        Drop an image to resize it by exact pixels or percentage. Nothing gets uploaded — processing stays in your browser.
       </p>
     </div>
 

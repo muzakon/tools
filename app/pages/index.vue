@@ -1,7 +1,7 @@
 <template>
   <div class="!p-4 flex flex-col gap-5">
     <div class="text-sm text-white/50 shrink-0">
-      A collection of open-source useful tools for everyday tasks.
+      Free, privacy-first developer tools that run entirely in your browser.
     </div>
 
     <v-divider />
