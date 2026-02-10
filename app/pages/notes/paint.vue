@@ -68,6 +68,12 @@
         <span class="label-text !mb-0">Filled</span>
         <input v-model="state.filled" type="checkbox" />
       </label>
+
+      <v-divider />
+
+      <button class="w-full h-[32px] !bg-white/5 rounded hover:!bg-white/10" @click="clearCanvas">
+        Clear
+      </button>
     </div>
 
     <!-- Session panel (bottom-left) -->
@@ -193,6 +199,13 @@ watch(
   },
 )
 
+function clearCanvas() {
+  state.elements = []
+  state.eraserTrail = []
+  state.shapesToDelete = new Set()
+  state.dirty = true
+}
+
 onMounted(async () => {
   await refreshSessions()
   const sessionId = querySessionId()
@@ -202,7 +215,10 @@ onMounted(async () => {
       await session.load(sessionId)
     } else {
       router.replace({ query: {} })
+      resetPaintState()
     }
+  } else {
+    resetPaintState()
   }
 })
 
