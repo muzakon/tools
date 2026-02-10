@@ -29,8 +29,8 @@ Built with Nuxt 4, Vue 3, Vuetify, and Tailwind CSS.
 ## Getting started
 
 ```bash
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
 Open [localhost:3000](http://localhost:3000) and you're good to go.
@@ -38,8 +38,8 @@ Open [localhost:3000](http://localhost:3000) and you're good to go.
 ## Build for production
 
 ```bash
-pnpm build
-pnpm preview
+bun run build
+bun run preview
 ```
 
 ## License
